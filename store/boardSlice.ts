@@ -5,6 +5,8 @@ export interface Task {
   title: string;
   description: string;
   columnId: string;
+  createdAt?: number;
+  updatedAt?: number; 
 }
 
 interface Column {
@@ -77,13 +79,23 @@ const boardSlice = createSlice({
     },
 
     updateTask: (
-      state,
-      action: PayloadAction<{ id: string; title: string; description: string }>
-    ) => {
-      const { id, title, description } = action.payload;
-      state.tasks[id].title = title;
-      state.tasks[id].description = description;
-    },
+  state,
+  action: PayloadAction<{
+    id: string;
+    title: string;
+    description: string;
+    updatedAt: number;
+  }>
+) => {
+  const { id, title, description, updatedAt } = action.payload;
+
+  if (!state.tasks[id]) return;
+
+  state.tasks[id].title = title;
+  state.tasks[id].description = description;
+  state.tasks[id].updatedAt = updatedAt; // ✅ VERY IMPORTANT
+},
+
 
     deleteTask: (state, action: PayloadAction<string>) => {
       const taskId = action.payload;

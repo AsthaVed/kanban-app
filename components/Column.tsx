@@ -1,13 +1,11 @@
 "use client";
 
 import TaskCard from "./TaskCard";
-
 import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addTask } from "@/store/boardSlice";
 import { v4 as uuid } from "uuid";
-// import TaskCard from "./TaskCard/TaskCard";
 import { RootState } from "@/store";
 
 interface ColumnProps {
@@ -16,9 +14,10 @@ interface ColumnProps {
     title: string;
     taskIds: string[];
   };
+  displayTaskIds?: string[];
 }
 
-const Column: React.FC<ColumnProps> = ({ column }) => {
+const Column: React.FC<ColumnProps> = ({ column, displayTaskIds }) => {
   const dispatch = useDispatch();
   const tasks = useSelector((state: RootState) => state.board.tasks);
 
@@ -30,9 +29,13 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
         title: "",
         description: "",
         columnId: column.id,
+        createdAt: Date.now(),
       })
     );
   };
+
+  // Render using displayTaskIds (sorted/filtered), but keep index consistent with original taskIds
+  const taskIdsToRender = displayTaskIds || column.taskIds;
 
   return (
     <div className="w-72 bg-gray-100 p-3 rounded">
@@ -48,11 +51,19 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`min-h-[200px] p-1 ${snapshot.isDraggingOver ? "bg-blue-50" : ""}`}
+            className={`min-h-[200px] p-1 ${
+              snapshot.isDraggingOver ? "bg-blue-50" : ""
+            }`}
           >
-            {column.taskIds.map((taskId: string, index: number) => (
-              <TaskCard key={taskId} task={tasks[taskId]} index={index} />
-            ))}
+            {taskIdsToRender.map((taskId, index) => {
+              const task = tasks[taskId];
+              if (!task) return null;
+
+              // Map index to original position for drag & drop
+              const originalIndex = column.taskIds.indexOf(taskId);
+
+              return <TaskCard key={taskId} task={task} index={originalIndex} />;
+            })}
             {provided.placeholder}
           </div>
         )}

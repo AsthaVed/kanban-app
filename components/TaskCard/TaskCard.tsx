@@ -18,6 +18,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index }) => {
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // prevent modal open
+    console.log(task.id)
     dispatch(deleteTask(task.id));
   };
 
@@ -37,7 +38,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index }) => {
 
             {/* Edit + Delete buttons always visible */}
             <div className="absolute top-2 right-2 flex gap-2 opacity-100 transition">
-              <button
+              {/* <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setModalOpen(true);
@@ -45,7 +46,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index }) => {
                 className="p-1 hover:bg-gray-200 rounded text-blue-600"
               >
                 <Edit3 size={16} />
-              </button>
+              </button> */}
               <button
                 onClick={handleDelete}
                 className="p-1 hover:bg-red-100 rounded text-red-600"
