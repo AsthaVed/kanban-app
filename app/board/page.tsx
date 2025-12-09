@@ -62,14 +62,14 @@ export default function BoardPage() {
   if (!isLoggedIn) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       {/* ================= HEADER ================= */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3 sm:gap-0">
         <h1 className="text-2xl font-bold">
           Welcome, <span className="text-blue-600">{email}</span>
         </h1>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3 sm:gap-3">
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition"
@@ -89,7 +89,7 @@ export default function BoardPage() {
       {/* ================= SEARCH & SORT (PRO UI) ================= */}
       <div className="bg-white rounded-xl shadow-md p-4 mb-6 flex flex-col md:flex-row md:items-center gap-4">
         {/* Search */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative w-full">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
             🔍
           </span>
@@ -105,7 +105,7 @@ export default function BoardPage() {
         </div>
 
         {/* Sort */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full md:w-auto">
           <span className="text-sm font-medium text-gray-600 whitespace-nowrap">
             Sort by:
           </span>
@@ -116,7 +116,7 @@ export default function BoardPage() {
             }
             className="border border-gray-300 px-4 py-2 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500
-                       transition cursor-pointer"
+                       transition cursor-pointer w-full md:w-auto"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -129,8 +129,8 @@ export default function BoardPage() {
 
       {/* ================= ADD TASK MODAL ================= */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white w-[500px] rounded-xl p-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-white w-full max-w-lg sm:w-[500px] rounded-xl p-6 shadow-2xl relative">
             <h2 className="text-2xl font-bold text-gray-800 mb-5">
               Add New Task
             </h2>
@@ -178,7 +178,7 @@ export default function BoardPage() {
               </select>
             </div>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="px-4 py-2 rounded-lg border hover:bg-gray-100"

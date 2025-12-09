@@ -39,18 +39,15 @@ const Board: React.FC<BoardProps> = ({ searchQuery, sortOrder }) => {
     );
   };
 
-  // For display only: get task objects for filtering/sorting
   const getFilteredSortedTasks = (taskIds: string[]) => {
     let list = taskIds.map((id) => tasks[id]).filter(Boolean);
 
-    // Search
     if (searchQuery) {
       list = list.filter((task) =>
         task.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Sort
     list.sort((a, b) => {
       const aDate = a.createdAt ?? 0;
       const bDate = b.createdAt ?? 0;
@@ -62,18 +59,18 @@ const Board: React.FC<BoardProps> = ({ searchQuery, sortOrder }) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-4 p-4 overflow-x-auto">
+      <div className="flex flex-wrap gap-4 p-2 sm:p-4" style={{ marginRight: '-1rem' }}>
         {columnOrder.map((columnId) => {
           const column = columns[columnId];
-          // Display order only, pass original taskIds to Column for drag & drop
           const displayTasks = getFilteredSortedTasks(column.taskIds);
           const displayTaskIds = displayTasks.map((t) => t.id);
 
           return (
             <Column
               key={columnId}
-              column={column} // original taskIds
-              displayTaskIds={displayTaskIds} // sorted/filtered ids for render
+              column={column}
+              displayTaskIds={displayTaskIds}
+              // className="flex-shrink-0 w-full sm:w-72" // responsive width
             />
           );
         })}

@@ -38,7 +38,7 @@ const Column: React.FC<ColumnProps> = ({ column, displayTaskIds }) => {
   const taskIdsToRender = displayTaskIds || column.taskIds;
 
   return (
-    <div className="w-72 bg-gray-100 p-3 rounded">
+    <div className="w-full sm:w-68 bg-gray-100 p-3 rounded flex-shrink-0">
       <div className="flex justify-between items-center mb-2">
         <h3 className="font-bold">{column.title}</h3>
         <button onClick={handleAddTask} aria-label={`Add to ${column.title}`}>
