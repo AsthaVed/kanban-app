@@ -25,6 +25,7 @@ const authSlice = createSlice({
       const exists = state.users.find(u => u.email === action.payload.email);
       if (!exists) {
         state.users.push({ email: action.payload.email, password: action.payload.password });
+        // localStorage.setItem("email", action.payload.email)
         state.isLoggedIn = true;
         state.userEmail = action.payload.email;
       }
@@ -34,11 +35,13 @@ const authSlice = createSlice({
         u => u.email === action.payload.email && u.password === action.payload.password
       );
       if (user) {
+        // localStorage.setItem("email", action.payload.email)
         state.isLoggedIn = true;
         state.userEmail = user.email;
       }
     },
     logout(state) {
+      // localStorage.removeItem("email")
       state.isLoggedIn = false;
       state.userEmail = null;
     },
